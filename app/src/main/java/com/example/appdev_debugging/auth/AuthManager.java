@@ -5,8 +5,6 @@ import com.example.appdev_debugging.data.model.User;
 import com.example.appdev_debugging.util.PasswordHasher;
 import com.example.appdev_debugging.util.Validator;
 
-import java.util.Locale;
-
 public class AuthManager {
     /** Deliberately vague so attackers can't tell whether an email is registered. */
     static final String INVALID_CREDENTIALS = "Invalid email or password";
@@ -26,7 +24,7 @@ public class AuthManager {
         if (passwordError != null) return AuthResult.failure(AuthResult.Field.PASSWORD, passwordError);
 
         User user = repository.findByEmail(email);
-        if (user == null || !PasswordHasher.verify(password.toLowerCase(Locale.ROOT), user.getSalt(), user.getPasswordHash())) {
+        if (user == null || !PasswordHasher.verify(password, user.getSalt(), user.getPasswordHash())) {
             return AuthResult.failure(AuthResult.Field.GENERAL, INVALID_CREDENTIALS);
         }
         return AuthResult.success(user);
@@ -66,5 +64,3 @@ public class AuthManager {
         return repository.findByEmail(email);
     }
 }
-
-

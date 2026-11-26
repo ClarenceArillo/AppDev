@@ -1,5 +1,7 @@
 package com.example.appdev_debugging.data.model;
 
+import java.util.Locale;
+
 public class User {
     private final String fullName;
     private final String email;        // stored normalized (trimmed, lowercase)
@@ -8,7 +10,7 @@ public class User {
 
     public User(String fullName, String email, String passwordHash, String salt) {
         this.fullName = fullName;
-        this.email = email;
+        this.email = email == null ? null : email.trim().toLowerCase(Locale.ROOT);
         this.passwordHash = passwordHash;
         this.salt = salt;
     }
@@ -18,3 +20,4 @@ public class User {
     public String getPasswordHash() { return passwordHash; }
     public String getSalt() { return salt; }
 }
+

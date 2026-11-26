@@ -23,10 +23,11 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public synchronized boolean add(User user) {
+        if (user == null || user.getEmail() == null) return false;
         if (exists(user.getEmail())) {
             return false;
         }
-        usersByEmail.put(user.getEmail(), user);
+        usersByEmail.put(normalize(user.getEmail()), user);
         return true;
     }
 
@@ -34,4 +35,3 @@ public class InMemoryUserRepository implements UserRepository {
         return email.trim().toLowerCase(Locale.ROOT);
     }
 }
-
